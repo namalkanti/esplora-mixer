@@ -32,6 +32,7 @@ class OutputAudioStream():
         Plays back audio stream while taking input from explora.
         """
         esplora = self._esplora
+        data = next(esplora)
 
         def callback(in_data, frame_count, time_info, flag):
             if flag:
