@@ -1,6 +1,5 @@
 import sys
 import time
-import wave
 
 import numpy as np
 import scipy as sp
