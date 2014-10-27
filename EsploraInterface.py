@@ -21,12 +21,19 @@ class EsploraInterface():
     def __init__(self, port="/dev/ttyACM0", baud=9600):
         """
         Opens serial connection to esplora.
+
+        Arguments:
+        port - The path to the serial port the esplora is connected to
+        baud - The baudrate for the arduino controller
         """
         self._connection = Serial(port, baud)
 
     def get_state_generator(self):
         """
-        Returns current state of esplora.
+        Creates generator that polls esplora for state
+
+        Returns:
+        Generator that will poll esplora and formats data neatly
         """
         while True:
             try:
