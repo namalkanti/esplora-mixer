@@ -22,16 +22,17 @@ void loop(){
   int goto_two = Esplora.readButton(SWITCH_3);
   int stick = Esplora.readJoystickX();
   
-  Serial.print(slider);
-  Serial.print(",");
-  Serial.print(lock_one);
-  Serial.print(",");
-  Serial.print(lock_two);
-  Serial.print(",");
-  Serial.print(goto_one);
-  Serial.print(",");
-  Serial.print(goto_two);
-  Serial.print(",");
-  Serial.println(stick);
-  delay(20);
+  while (-1 != Serial.read()){
+    Serial.print(slider);
+    Serial.print(",");
+    Serial.print(lock_one);
+    Serial.print(",");
+    Serial.print(lock_two);
+    Serial.print(",");
+    Serial.print(goto_one);
+    Serial.print(",");
+    Serial.print(goto_two);
+    Serial.print(",");
+    Serial.println(stick);
+  }
 }
