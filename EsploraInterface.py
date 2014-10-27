@@ -2,6 +2,17 @@ from serial import Serial
 
 ENCODING = "utf-8"
 
+POLL_BIT = b"s"
+
+GAIN = "gain"
+STICK = "stick"
+SAVE_ONE = "sone"
+SAVE_TWO = "stwo"
+PLAY_ONE = "pone"
+PLAY_TWO = "ptwo"
+
+
+
 class EsploraInterface():
     """
     Interface to the Esplora controller.
