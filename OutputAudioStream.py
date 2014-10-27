@@ -42,6 +42,7 @@ class OutputAudioStream():
                 sys.exit(1)
 
             esplora_data = next(esplora)
+            gain = 1
 
             if esplora_data and 6 == len(esplora_data):
                 if 0 == int(esplora_data[1]):
@@ -63,8 +64,8 @@ class OutputAudioStream():
 
             start = counter
             counter += frame_count
-            data = self._audio[start:counter] 
-            return (data, paContinue)
+            data = self._audio[start:counter] * gain * 1.5 
+            return (data.astype(np.int16), paContinue)
 
 
         stream = self._pyaudio.open(format = paInt32,
