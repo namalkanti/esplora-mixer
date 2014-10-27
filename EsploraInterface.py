@@ -37,16 +37,22 @@ class EsploraInterface():
         """
         while True:
             try:
+                self._connection.write(b"s")
                 ebytes = self._connection.readline()
-                data = ebytes.decode(ENCODING).strip().split(",")
-                data[0] = float(data[0]) / 1023
-                joystick = float(data[-1])
+                poll = ebytes.decode(ENCODING).strip().split(",")
+                data={}
+                data[GAIN] = float(poll[0]) / 1023
+                joystick = float(poll[-1])
                 if 100 < joystick:
-                    data[-1] = -1
+                    data[STICK] = -1
                 elif -100 > joystick:
-                    data[-1] = 1
+                    data[STICK] = 1
                 else:
-                    data[-1] = 0
+                    data[STICK] = 0
+                data[SAVE_ONE] = int(poll[1])
+                data[SAVE_TWO] = int(poll[2])
+                data[PLAY_ONE] = int(poll[3])
+                data[PLAY_TWO] = int(poll[4])
                 yield data
             except ValueError:
                 yield None
