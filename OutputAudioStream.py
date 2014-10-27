@@ -19,8 +19,11 @@ class OutputAudioStream():
 
     def __init__(self, file_name, esplora):
         """
-        Constructor takes in file name and loads into array for playback.
-        Also takes in esplora state generator.
+        Constructor initializes pyaudio, esplora generator, states, and reads in audio file.
+
+        Arguments:
+        file_name - Path to wav file for playback
+        esplora - Generator returns from EsploraInterfaces's get_state_generator function
         """
         self._pyaudio = PyAudio()
         self._esplora = esplora
@@ -37,6 +40,9 @@ class OutputAudioStream():
         counter = 0
 
         def callback(in_data, frame_count, time_info, flag):
+            """
+            Callback function for audio processing.
+            """
             nonlocal counter, esplora
             if flag:
                 print("Playback Error: {0}".format(flag))
