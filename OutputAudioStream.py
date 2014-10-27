@@ -52,21 +52,21 @@ class OutputAudioStream():
             gain = 1
 
             if esplora_data and 6 == len(esplora_data):
-                if 0 == int(esplora_data[1]):
+                if 0 == int(esplora_data[SAVE_ONE]):
                     self._save_one = counter
-                elif 0 == int(esplora_data[2]):
+                elif 0 == int(esplora_data[SAVE_TWO]):
                     self._save_two = counter
 
-                gain = esplora_data[0]
+                gain = esplora_data[GAIN]
                 
-                if 0 == int(esplora_data[3]):
+                if 0 == int(esplora_data[PLAY_ONE]):
                     counter = self._save_one
-                elif 0 == int(esplora_data[4]):
+                elif 0 == int(esplora_data[PLAY_TWO]):
                     counter = self._save_two
 
-                if 1 == int(esplora_data[5]):
+                if 1 == int(esplora_data[STICK]):
                     counter += frame_count
-                elif -1 == int(esplora_data[5]):
+                elif -1 == int(esplora_data[STICK]):
                     counter -= frame_count
 
             start = counter
