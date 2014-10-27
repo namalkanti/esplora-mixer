@@ -7,6 +7,8 @@ import scipy as sp
 from pyaudio import PyAudio, paContinue, paInt32
 from scipy.io.wavfile import read
 
+from EsploraInterface import GAIN, STICK, SAVE_ONE, SAVE_TWO, PLAY_ONE, PLAY_TWO
+
 DEFAULT_SAVE1 = 0
 DEFAULT_SAVE2 = 0
 
