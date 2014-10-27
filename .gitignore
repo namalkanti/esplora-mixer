@@ -2,3 +2,4 @@ __pycache__
 Hero.wav
 test_wav.py
 
+*.swp
