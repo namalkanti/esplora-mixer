@@ -33,5 +33,5 @@ void loop(){
   Serial.print(goto_two);
   Serial.print(",");
   Serial.println(stick);
-  delay(10);
+  delay(20);
 }
