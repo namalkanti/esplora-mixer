@@ -9,4 +9,9 @@ Scipy
 PyAudio
 PySerial
 
+I used an article from Basti's Scratchpad on the Internet to 
+figure out the real time audio processing. While my application
+did not require cython, here is his blog post for anybody who
+needs it.
+http://bastibe.de/2012-11-02-real-time-signal-processing-in-python.html
 
