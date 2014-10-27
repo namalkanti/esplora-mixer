@@ -5,10 +5,11 @@ import wave
 import numpy as np
 import scipy as sp
 
-from pyaudio import PyAudio, paContinue
+from pyaudio import PyAudio, paContinue, paInt32
+from scipy.io.wavfile import read
 
 DEFAULT_SAVE1 = 0
-DEFAULT_SAVE2 = -1
+DEFAULT_SAVE2 = 0
 
 class OutputAudioStream():
     """
@@ -24,7 +25,7 @@ class OutputAudioStream():
         self._esplora = esplora
         self._save_one = DEFAULT_SAVE1
         self._save_two = DEFAULT_SAVE2
-        self._audio = wave.open(file_name, "rb")
+        self._rate, self._audio = read(file_name)
 
 
     def playback(self):
@@ -32,20 +33,43 @@ class OutputAudioStream():
         Plays back audio stream while taking input from explora.
         """
         esplora = self._esplora
+        counter = 0
 
         def callback(in_data, frame_count, time_info, flag):
+            nonlocal counter, esplora
             if flag:
                 print("Playback Error: {0}".format(flag))
                 sys.exit(1)
-            data = next(esplora)
-            print(data)
-            data = self._audio.readframes(frame_count)
+
+            esplora_data = next(esplora)
+
+            if esplora_data and 6 == len(esplora_data):
+                if 0 == int(esplora_data[1]):
+                    self._save_one = counter
+                elif 0 == int(esplora_data[2]):
+                    self._save_two = counter
+
+                gain = esplora_data[0]
+                
+                if 0 == int(esplora_data[3]):
+                    counter = self._save_one
+                elif 0 == int(esplora_data[4]):
+                    counter = self._save_two
+
+                if 1 == int(esplora_data[5]):
+                    counter += frame_count
+                elif -1 == int(esplora_data[5]):
+                    counter -= frame_count
+
+            start = counter
+            counter += frame_count
+            data = self._audio[start:counter] 
             return (data, paContinue)
 
 
-        stream = self._pyaudio.open(format = self._pyaudio.get_format_from_width(self._audio.getsampwidth()),
-                channels = self._audio.getnchannels(),
-                rate = self._audio.getframerate(),
+        stream = self._pyaudio.open(format = paInt32,
+                channels = 1,
+                rate = self._rate,
                 output = True,
                 frames_per_buffer = 1024,
                 stream_callback = callback)
@@ -59,5 +83,4 @@ class OutputAudioStream():
         """
         Closes pyaudio object.
         """
-        self._audio.close()
         self._pyaudio.terminate()
